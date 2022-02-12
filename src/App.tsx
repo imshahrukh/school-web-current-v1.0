@@ -27,7 +27,7 @@ function App() {
         <ItemsContainor>
           {/* <Profile /> */}
           {/* <StudentForm /> */}
-          {/* <Announcemnt></Announcemnt> */}
+          <Announcemnt></Announcemnt>
           {/* <ViewStudentPerDepartment></ViewStudentPerDepartment> */}
           {/* <TimeTable></TimeTable> */}
           <AllAnnouncment></AllAnnouncment>
