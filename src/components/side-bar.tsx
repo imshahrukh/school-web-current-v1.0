@@ -1,7 +1,18 @@
-import { FC, useState } from "react";
+import { clear } from "console";
+import { FC, useEffect, useState } from "react";
 import { ISideNavBar } from "../constants/types";
+import { deleteUser, getUser } from "../utils/localStorageFunctions";
+import { useNavigate } from "react-router-dom";
 
 const SideBar: FC<ISideNavBar> = ({ showNavBar, setShowNavBar }) => {
+  const navigation = useNavigate();
+  useEffect(() => {}, []);
+
+  const logout = () => {
+    deleteUser();
+    if (getUser()) return;
+    navigation("/signin");
+  };
   return (
     // hide for smaller screen and show the icons on the top seach bar
     <div className={` ${showNavBar ? "" : "hidden"} lg:block bg-[#3C3B53]`}>
@@ -114,15 +125,15 @@ const SideBar: FC<ISideNavBar> = ({ showNavBar, setShowNavBar }) => {
               </a>
             </li>
             <li>
-              <a
-                href="#"
-                className="flex flex-row items-center h-12 transform hover:translate-x-2 transition-transform ease-in duration-200 text-gray-500 hover:text-gray-800"
+              <div
+                onClick={logout}
+                className=" cursor-pointer flex flex-row items-center h-12 transform hover:translate-x-2 transition-transform ease-in duration-200 text-gray-500 hover:text-gray-800"
               >
                 <span className="inline-flex items-center justify-center h-12 w-12 text-lg text-gray-400">
                   <i className="bx bx-log-out"></i>
                 </span>
                 <span className="text-sm font-medium">Logout</span>
-              </a>
+              </div>
             </li>
           </ul>
         </div>

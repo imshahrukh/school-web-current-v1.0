@@ -1,9 +1,10 @@
-import React, { useState } from "react";
+import React, { FC, useState } from "react";
+import { Route, Routes } from "react-router-dom";
 import "./App.css";
 import ItemsContainor from "./components/Object-Containor/Items-containor";
 import SideBar from "./components/side-bar";
 import TopBar from "./components/top-bar";
-import Announcemnt from "./pages/ADMIN/Annoucment/announcement";
+import ADDAnnouncemnt from "./pages/ADMIN/Annoucment/announcement";
 import AllAnnouncment from "./pages/ADMIN/Annoucment/view-all-announcement";
 import TimeTable from "./pages/ADMIN/time-table";
 import ViewStudentPerDepartment from "./pages/ADMIN/view-students-per-department";
@@ -12,29 +13,29 @@ import StudentForm from "./pages/FORM/create-student-form";
 import Profile from "./pages/STUDENT/profile";
 
 function App() {
-  const [showNavBar, setShowNavBar] = useState(false);
   return (
     // <div>
     //   <Singin />
     // </div>
-    <div className="flex h-screen overflow-hidden">
-      {/* Sidebar */}
-      {/* <Sidebar sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} /> */}
-      <SideBar showNavBar={showNavBar} setShowNavBar={setShowNavBar}></SideBar>
-      {/* Content area */}
-      <div className="relative flex flex-col flex-1 overflow-y-auto overflow-x-hidden">
-        <TopBar showNavBar={showNavBar} setShowNavBar={setShowNavBar}></TopBar>
-        <ItemsContainor>
-          {/* <Profile /> */}
-          {/* <StudentForm /> */}
-          <Announcemnt></Announcemnt>
-          {/* <ViewStudentPerDepartment></ViewStudentPerDepartment> */}
-          {/* <TimeTable></TimeTable> */}
-          <AllAnnouncment></AllAnnouncment>
-        </ItemsContainor>
-      </div>
-    </div>
+    <>
+      <Routes>
+        <Route path="/" element={<>game</>}></Route>
+        <Route path="/signin" element={<Singin />} />
+
+        {/* Admin */}
+        <Route path="/admin/addannouncment" element={<ADDAnnouncemnt />} />
+        <Route path="/admin/addstudent" element={<StudentForm />} />
+        <Route path="/admin/profile" element={<Profile />} />
+        <Route path="/admin/allannouncment" element={<AllAnnouncment />} />
+
+        {/* Student */}
+
+        <Route path="/student/profile" element={<Profile />} />
+        <Route path="/student/announcement" element={<AllAnnouncment />} />
+      </Routes>
+    </>
   );
 }
 
 export default App;
+// TODO

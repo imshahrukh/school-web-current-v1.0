@@ -1,6 +1,40 @@
-import { FC } from "react";
+import { FC, useEffect, useState } from "react";
+import { getUser } from "../../utils/localStorageFunctions";
+import { checkUser } from "../../utils/validateUser";
+import { useNavigate } from "react-router-dom";
+import { ADMIN, STUDENT } from "../../constants/role";
+import { STATUS_CODES } from "http";
+import { landMeToPage } from "../../utils/navigation";
 
 const Singin: FC = () => {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [message, setMessage] = useState("");
+  const navigation = useNavigate();
+  useEffect(() => {
+    if (getUser()) {
+      const { user } = getUser();
+      landMeToPage(navigation, user.role);
+    } else {
+      console.log("invlid Access");
+    }
+  }, [navigation]);
+
+  const findUser = (e: any) => {
+    e.preventDefault();
+    const getData = async () => {
+      const data = await checkUser(email, password);
+      if (data) {
+        const { user } = getUser();
+        landMeToPage(navigation, user.role);
+      } else {
+        setMessage("invalide email and password");
+      }
+    };
+    getData();
+    return "";
+  };
+
   return (
     <>
       <div className="flex items-center min-h-screen bg-gray-50">
@@ -29,6 +63,9 @@ const Singin: FC = () => {
                 <div>
                   <label className="block text-sm">Email</label>
                   <input
+                    onChange={(e) => {
+                      setEmail(e.target.value);
+                    }}
                     type="email"
                     className="w-full px-4 py-2 text-sm border rounded-md focus:border-blue-400 focus:outline-none focus:ring-1 focus:ring-blue-600"
                     placeholder=""
@@ -37,6 +74,9 @@ const Singin: FC = () => {
                 <div>
                   <label className="block mt-4 text-sm">Password</label>
                   <input
+                    onChange={(e) => {
+                      setPassword(e.target.value);
+                    }}
                     className="w-full px-4 py-2 text-sm border rounded-md focus:border-blue-400 focus:outline-none focus:ring-1 focus:ring-blue-600"
                     placeholder=""
                     type="password"
@@ -50,8 +90,15 @@ const Singin: FC = () => {
                     Forgot your password?
                   </a>
                 </p>
-
-                <button className="block w-full px-4 py-2 mt-4 text-sm font-medium leading-5 text-center text-white transition-colors duration-150 bg-blue-600 border border-transparent rounded-lg active:bg-blue-600 hover:bg-blue-700 focus:outline-none focus:shadow-outline-blue">
+                <p className="mt-4">
+                  <div className="text-sm text-blue-600 hover:underline">
+                    {message}
+                  </div>
+                </p>
+                <button
+                  onClick={findUser}
+                  className="block w-full px-4 py-2 mt-4 text-sm font-medium leading-5 text-center text-white transition-colors duration-150 bg-blue-600 border border-transparent rounded-lg active:bg-blue-600 hover:bg-blue-700 focus:outline-none focus:shadow-outline-blue"
+                >
                   Log in
                 </button>
               </div>
