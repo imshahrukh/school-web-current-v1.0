@@ -6,6 +6,8 @@ import SideBar from "./components/side-bar";
 import TopBar from "./components/top-bar";
 import ADDAnnouncemnt from "./pages/ADMIN/Annoucment/announcement";
 import AllAnnouncment from "./pages/ADMIN/Annoucment/view-all-announcement";
+import AddScholership from "./pages/ADMIN/Scholership/add-scholership";
+import AllScholership from "./pages/ADMIN/Scholership/all-scholership";
 import TimeTable from "./pages/ADMIN/time-table";
 import ViewStudentPerDepartment from "./pages/ADMIN/view-students-per-department";
 import Singin from "./pages/auth/signin";
@@ -27,6 +29,8 @@ function App() {
         <Route path="/admin/addstudent" element={<StudentForm />} />
         <Route path="/admin/profile" element={<Profile />} />
         <Route path="/admin/allannouncment" element={<AllAnnouncment />} />
+        <Route path="/admin/addscholership" element={<AddScholership />} />
+        <Route path="/admin/allScholership" element={<AllScholership />} />
 
         {/* Student */}
 

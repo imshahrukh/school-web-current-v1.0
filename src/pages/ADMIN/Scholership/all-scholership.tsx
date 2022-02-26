@@ -1,10 +1,10 @@
 import { Dispatch, FC, SetStateAction, useEffect, useState } from "react";
 import PageContainor from "../../../components/page-containor";
 import { ADMIN, STUDENT } from "../../../constants/role";
-import { getAllAnnouncement } from "./announcment";
-import NewAnnounment from "./new-announcement";
+import { getAllScholership } from "./scholership";
+import NewAnnounment from "./../Annoucment/new-announcement";
 
-const AllAnnouncment: FC = () => {
+const AllScholership: FC = () => {
   const [viewAllAnnouncment, setViewAllAnnouncment] = useState(false);
   const [loading, setLoading] = useState(true);
   let [singleAnn, setSingleAnn] = useState({
@@ -23,7 +23,7 @@ const AllAnnouncment: FC = () => {
   // call the the annouc
   useEffect(() => {
     const getAllAnn = async () => {
-      const _ann = await getAllAnnouncement();
+      const _ann = await getAllScholership();
       if (_ann) {
         setLoading(false);
         setAllAnn(_ann);
@@ -36,7 +36,7 @@ const AllAnnouncment: FC = () => {
 
   return (
     <>
-      <PageContainor role={STUDENT}>
+      <PageContainor role={ADMIN}>
         <div className="">
           {loading ? (
             <>lOading data....</>
@@ -48,18 +48,29 @@ const AllAnnouncment: FC = () => {
           ) : (
             allAnn &&
             allAnn.map((el: any, key) => (
-              <div key={key}>
+              <div key={key} className="my-2">
                 <div className="w-full py-2 border-2 border-gray-300 rounded flex justify-between items-center px-4">
                   <div className="text-gray-600">{el.title}</div>
-                  <button
-                    onClick={() => {
-                      setViewAllAnnouncment(true);
-                      filterAnn(el._id);
-                    }}
-                    className="bg-blue-500 text-white w-max rounded px-12 py-4"
-                  >
-                    View
-                  </button>
+                  <div className="flex space-x-2">
+                    <button
+                      onClick={() => {
+                        setViewAllAnnouncment(true);
+                        filterAnn(el._id);
+                      }}
+                      className="bg-blue-500 text-white w-max rounded px-12 py-4"
+                    >
+                      Update
+                    </button>
+                    <button
+                      onClick={() => {
+                        setViewAllAnnouncment(true);
+                        filterAnn(el._id);
+                      }}
+                      className="bg-blue-500 text-white w-max rounded px-12 py-4"
+                    >
+                      Delete
+                    </button>
+                  </div>
                 </div>
               </div>
             ))
@@ -70,4 +81,4 @@ const AllAnnouncment: FC = () => {
   );
 };
 
-export default AllAnnouncment;
+export default AllScholership;
