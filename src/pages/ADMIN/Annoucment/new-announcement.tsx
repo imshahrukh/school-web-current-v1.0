@@ -19,7 +19,7 @@ const NewAnnounment: FC<INewAnnouncment> = ({
           }}
           className="my-2 border-2 border-gray-300 px-4 rounded"
         >
-          View All
+          View Alls
         </button>
       </div>
       <img
