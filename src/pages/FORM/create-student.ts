@@ -13,6 +13,9 @@ interface IStudent {
   gender: string;
   semester: string;
   memberID: string;
+  section: string;
+  batch: string;
+  stdID: string;
 }
 
 export const addNewStudent = async (studentObject: IStudent) => {
@@ -26,18 +29,34 @@ export const addNewStudent = async (studentObject: IStudent) => {
 
   if (newMember.data.data) {
     studentObject.memberID = newMember.data.data.member._id;
-    console.log(studentObject);
+    console.log({
+      stdName: studentObject.stdName,
+      stdFather: studentObject.stdFatherName,
+      stdPhoneNumber: studentObject.number,
+      stdBatch: studentObject.batch,
+      stdSection: studentObject.section,
+      stdProgram: studentObject.program,
+      stdDesignation: "Student",
+      gender: studentObject.gender,
+      stdAddress: studentObject.address,
+      memberID: studentObject.memberID,
+      stdSemester: "1",
+      stdID: studentObject.stdID,
+    });
 
     const newStudent = await axios.post(URL + "student", {
       stdName: studentObject.stdName,
       stdFather: studentObject.stdFatherName,
       stdPhoneNumber: studentObject.number,
-      stdBatch: "SP18",
+      stdBatch: studentObject.batch,
+      stdSection: studentObject.section,
+      stdProgram: studentObject.program,
       stdDesignation: "Student",
       gender: studentObject.gender,
       stdAddress: studentObject.address,
       memberID: studentObject.memberID,
-      stdSemester: "1st Semester",
+      stdSemester: "1",
+      stdID: studentObject.stdID,
     });
     if (newStudent.data.data) {
       console.log(newStudent.data.data.student);

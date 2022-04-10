@@ -2,8 +2,6 @@ import { FC, useEffect, useState } from "react";
 import { getUser } from "../../utils/localStorageFunctions";
 import { checkUser } from "../../utils/validateUser";
 import { useNavigate } from "react-router-dom";
-import { ADMIN, STUDENT } from "../../constants/role";
-import { STATUS_CODES } from "http";
 import { landMeToPage } from "../../utils/navigation";
 
 const Singin: FC = () => {

@@ -11,11 +11,11 @@ const CustomButton: FC<ICustomButton> = ({ type, title, action }) => {
       <>
         <button
           onClick={action}
-          className={`w-2/4 h-12 flex justify-center items-center  rounded text-white ${
+          className={`w-[120px] h-12 flex justify-center items-center  rounded text-white ${
             type === "Delete" ? "bg-red-400" : ""
           } ${type === "Update" ? "bg-yellow-400" : ""} ${
-            type === "Add" ? "bg-green-400" : ""
-          } ${type === "View" ? "bg-blue-400" : ""}`}
+            type === "Add" ? "bg-green-500" : ""
+          } ${type === "View" ? "bg-green-700" : ""}`}
         >
           {title}
         </button>

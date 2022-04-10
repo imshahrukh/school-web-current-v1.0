@@ -1,12 +1,17 @@
 import { Dispatch, FC, SetStateAction, useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import PageContainor from "../../../components/page-containor";
-import { ADMIN, STUDENT } from "../../../constants/role";
-import { getAllScholership } from "./scholership";
-import NewAnnounment from "./../Annoucment/new-announcement";
+import { ADMIN, STUDENT, TEACHER } from "../../../constants/role";
+import { getUser } from "../../../utils/localStorageFunctions";
 
-const AllScholership: FC = () => {
+import NewAnnounment from "./../Annoucment/new-announcement";
+import { deleteNewScholership, getAllScholership } from "./scholership";
+
+const AllAnnouncment: FC = () => {
   const [viewAllAnnouncment, setViewAllAnnouncment] = useState(false);
   const [loading, setLoading] = useState(true);
+  const { user } = getUser();
+  const [reload, setReload] = useState(false);
   let [singleAnn, setSingleAnn] = useState({
     title: "",
     url: "",
@@ -20,6 +25,13 @@ const AllScholership: FC = () => {
     console.log(sA);
     setSingleAnn(sA[0]);
   };
+  const deleteAnn = async (id: any) => {
+    //
+    const deleteA = await deleteNewScholership(id);
+    if (deleteA === "success") {
+      setReload(!reload);
+    }
+  };
   // call the the annouc
   useEffect(() => {
     const getAllAnn = async () => {
@@ -32,11 +44,12 @@ const AllScholership: FC = () => {
       }
     };
     getAllAnn();
-  }, []);
-
+  }, [reload]);
+  const ROLE =
+    user.role === ADMIN ? ADMIN : user.role === TEACHER ? TEACHER : STUDENT;
   return (
     <>
-      <PageContainor role={ADMIN}>
+      <PageContainor role={ROLE}>
         <div className="">
           {loading ? (
             <>lOading data....</>
@@ -48,28 +61,47 @@ const AllScholership: FC = () => {
           ) : (
             allAnn &&
             allAnn.map((el: any, key) => (
-              <div key={key} className="my-2">
+              <div key={key}>
                 <div className="w-full py-2 border-2 border-gray-300 rounded flex justify-between items-center px-4">
                   <div className="text-gray-600">{el.title}</div>
-                  <div className="flex space-x-2">
+                  <div className="space-x-2">
                     <button
                       onClick={() => {
                         setViewAllAnnouncment(true);
                         filterAnn(el._id);
                       }}
-                      className="bg-blue-500 text-white w-max rounded px-12 py-4"
+                      className="bg-green-600 text-white w-max rounded px-12 py-4"
                     >
-                      Update
+                      Detail
                     </button>
-                    <button
-                      onClick={() => {
-                        setViewAllAnnouncment(true);
-                        filterAnn(el._id);
-                      }}
-                      className="bg-blue-500 text-white w-max rounded px-12 py-4"
-                    >
-                      Delete
-                    </button>
+                    {user.role === ADMIN ? (
+                      <>
+                        {" "}
+                        <Link
+                          to="/admin/addscholership"
+                          state={{
+                            operation: "UPDATE",
+                            object: el,
+                          }}
+                        >
+                          <button className="bg-yellow-400 text-white w-max rounded px-12 py-4">
+                            Update
+                          </button>
+                        </Link>
+                        <button
+                          onClick={async () => {
+                            // setViewAllAnnouncment(true);
+                            // filterAnn(el._id);
+                            await deleteAnn(el._id);
+                          }}
+                          className="bg-red-500 text-white w-max rounded px-12 py-4"
+                        >
+                          Delete
+                        </button>
+                      </>
+                    ) : (
+                      <></>
+                    )}
                   </div>
                 </div>
               </div>
@@ -81,4 +113,4 @@ const AllScholership: FC = () => {
   );
 };
 
-export default AllScholership;
+export default AllAnnouncment;

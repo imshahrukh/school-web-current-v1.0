@@ -9,7 +9,6 @@ const NewAnnounment: FC<INewAnnouncment> = ({
   announcemnt,
   setViewAllAnnouncment,
 }) => {
-  console.log("testing");
   return (
     <div className="h-full">
       <div className="flex justify-between items-center">
@@ -20,7 +19,7 @@ const NewAnnounment: FC<INewAnnouncment> = ({
           }}
           className="my-2 border-2 border-gray-300 px-4 rounded"
         >
-          View Allsss
+          View All
         </button>
       </div>
       <img

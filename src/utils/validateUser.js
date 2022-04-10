@@ -10,7 +10,6 @@ export const checkUser = async (email, password) => {
   if (member.data.total === 0) {
     return null;
   } else {
-    // console.log(member.data.data);
     setUser({
       user: member.data.data.member[0],
       user_information: member.data.data.member_information[0],

@@ -3,7 +3,7 @@ import { FC, useEffect, useState } from "react";
 import { updateMember } from "../../Api/member";
 import { Loader } from "../../components/loader";
 import PageContainor from "../../components/page-containor";
-import { STUDENT } from "../../constants/role";
+import { STUDENT, TEACHER } from "../../constants/role";
 import { getUser } from "../../utils/localStorageFunctions";
 
 const Profile: FC = () => {
@@ -15,12 +15,15 @@ const Profile: FC = () => {
   let [newMail, setNewMail] = useState("");
   const [reload, setReload] = useState(false);
   let [std, setstd] = useState<any>(null);
+  let [tech, setTeach] = useState<any>(null);
   useEffect(() => {
     const getStudent = async () => {
       const student = await axios.get(
-        "http://localhost:8000/v1/student/" + user_information._id
+        "http://localhost:8000/v1/teacher/" + user_information._id
       );
-      const data = student.data.data.student;
+
+      const data = student.data.data.teacher;
+
       if (data) {
         console.log({ data });
         setstd(data);
@@ -40,48 +43,33 @@ const Profile: FC = () => {
 
   return (
     <>
-      <PageContainor role={STUDENT}>
+      <PageContainor role={TEACHER}>
         <>
           {!udpateEmailPage ? (
             <>
               {std ? (
                 <>
                   <div>
-                    <div className="w-full flex border-t-2 border-b-2 border-gray-200">
-                      <div className="w-2/4 ">
-                        <div className="mt-4 text-lg font-bold">ID</div>
-                        <div className="py-2">{std?._id}</div>
-                      </div>
-                      <div className="w-2/4 pl-4 border-l-2 border-gray-200">
-                        <div className="mt-4 text-lg font-bold">Name</div>
-                        <div className="py-2">{std?.stdName}</div>
-                      </div>
-                    </div>
                     <div className="w-full flex border-b-2 border-gray-200">
-                      <div className="w-2/4 ">
-                        <div className="mt-4 text-lg font-bold">Batch</div>
-                        {/* {user_information.stdBatch} */}
-                        <div className="py-2">{std?.stdBatch.batch_name}</div>
-                      </div>
                       <div className="w-2/4 pl-4 border-l-2 border-gray-200">
-                        <div className="mt-4 text-lg font-bold">Gender</div>
-                        <div className="py-2">{std?.gender}</div>
+                        <div className="flex justify-between">
+                          <div className="mt-4 text-lg font-bold">Name</div>{" "}
+                          <div className="mr-4 text-blue-500 cursor-pointer">
+                            {std.name}
+                          </div>
+                        </div>
+                        <div className="py-2">{std?.tch_name}</div>
                       </div>
                     </div>
 
                     <div className="w-full flex border-b-2 border-gray-200">
-                      <div className="w-2/4 ">
-                        <div className="mt-4 text-lg font-bold">Conatact</div>
-
-                        <div className="py-2">{std?.stdPhoneNumber}</div>
-                      </div>
                       <div className="w-2/4 pl-4 border-l-2 border-gray-200">
                         <div className="flex justify-between">
                           <div className="mt-4 text-lg font-bold">Email</div>{" "}
                           <div
                             onClick={() => {
                               setUpdateEmailPage(true);
-                              setEmail(std?.memberID.email);
+                              setEmail(std?.tch_id.email);
                               setWhichAction("Email");
                             }}
                             className="mr-4 text-blue-500 cursor-pointer"
@@ -89,35 +77,18 @@ const Profile: FC = () => {
                             Update Email
                           </div>
                         </div>
-                        <div className="py-2">{std?.memberID.email}</div>
+                        <div className="py-2">{std?.tch_id.email}</div>
                       </div>
                     </div>
 
                     <div className="w-full flex border-b-2 border-gray-200">
-                      <div className="w-2/4 ">
-                        <div className="mt-4 text-lg font-bold">Semester</div>
-
-                        <div className="py-2">1</div>
-                      </div>
-                      <div className="w-2/4 pl-4 border-l-2 border-gray-200">
-                        <div className="mt-4 text-lg font-bold">Section</div>{" "}
-                        <div className="py-2">{std?.stdSection.sec_name}</div>
-                      </div>
-                    </div>
-
-                    <div className="w-full flex border-b-2 border-gray-200">
-                      <div className="w-2/4 ">
-                        <div className="mt-4 text-lg font-bold">Address</div>
-
-                        <div className="py-2">{std?.stdAddress}</div>
-                      </div>
                       <div className="w-2/4 pl-4 border-l-2 border-gray-200">
                         <div className="flex justify-between">
-                          <div className="mt-4 text-lg font-bold">Email</div>{" "}
+                          <div className="mt-4 text-lg font-bold">Password</div>{" "}
                           <div
                             onClick={() => {
                               setUpdateEmailPage(true);
-                              setEmail(std?.memberID.password);
+                              setEmail(std?.tch_id.password);
 
                               setWhichAction("Password");
                             }}
@@ -126,7 +97,7 @@ const Profile: FC = () => {
                             Update Password
                           </div>
                         </div>
-                        <div className="py-2">{std?.memberID.password}</div>
+                        <div className="py-2">{std?.tch_id.password}</div>
                       </div>
                     </div>
                   </div>

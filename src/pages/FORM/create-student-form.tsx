@@ -2,6 +2,7 @@ import { FC, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { getAllBtach, getAllProgram, getAllSection } from "../../Api/batch";
 
 import PageContainor from "../../components/page-containor";
 import { ADMIN } from "../../constants/role";
@@ -26,13 +27,24 @@ const StudentForm: FC = () => {
   const [password, setPassword] = useState("");
   const [c_password, setC_Password] = useState("");
   const [active, setActive] = useState(false);
+  const [section, setSection] = useState("A");
+  const [batch, setBatch] = useState("A-2022");
+  const [stdID, setStdID] = useState("");
 
+  // __________________________________________________________
+
+  const [sectionArray, setSectionArray] = useState([]);
+  const [programArray, setProgramArray] = useState([]);
+  const [batchArray, setBatchArray] = useState([]);
   // end --STATE--
   useEffect(() => {
     if (!user) navigation("/signin");
   }, [user, navigation]);
 
   // add new std
+  useEffect(() => {
+    console.log(batch);
+  }, [batch]);
 
   const createStudent = (e: any) => {
     e.preventDefault();
@@ -50,6 +62,9 @@ const StudentForm: FC = () => {
         gender,
         semester,
         memberID: "",
+        section,
+        batch,
+        stdID,
       });
       if (std === null) {
         notify("fail to add data");
@@ -66,12 +81,31 @@ const StudentForm: FC = () => {
         setPassword("");
         setC_Password("");
         setAddress("");
+        setSection("");
+        setProgram("");
+        setBatch("");
       }
       setActive(false);
     };
     addStudent();
   };
 
+  useEffect(() => {
+    const getData = async () => {
+      const section = await getAllSection();
+      const batch = await getAllBtach();
+      const program = await getAllProgram();
+
+      setProgramArray(program.progam);
+      setSectionArray(section.section);
+      setBatchArray(batch.batch);
+    };
+    getData();
+  }, []);
+
+  useEffect(() => {
+    console.log(section, batch, program);
+  }, [batch, section, program]);
   if (user.role !== ADMIN) {
     <>Invalid Access</>;
   }
@@ -135,6 +169,20 @@ const StudentForm: FC = () => {
                 </label>
               </div>
               <div className="relative z-0 mb-6 w-full group">
+                <select
+                  onChange={(E: any) => {
+                    setProgram(E.target.value);
+                  }}
+                  className="w-full bg-green-500 w-fill py-2 rounded text-white"
+                >
+                  {programArray.map((el: any, key: any) => (
+                    <option key={key} value={el._id}>
+                      {el.prog_name}
+                    </option>
+                  ))}
+                </select>
+              </div>
+              {/* <div className="relative z-0 mb-6 w-full group">
                 <input
                   type="text"
                   value={program}
@@ -149,8 +197,43 @@ const StudentForm: FC = () => {
                 <label className="absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">
                   Program
                 </label>
+              </div> */}
+            </div>
+            {/* _____ */}
+
+            <div className="grid xl:grid-cols-2 xl:gap-6">
+              {/* <div className="relative z-0 mb-6 w-full group"> */}
+              <div className="relative z-0 mb-6 w-full group">
+                <select
+                  onChange={(E: any) => {
+                    setBatch(E.target.value);
+                  }}
+                  className="w-full bg-green-500 w-fill py-2 rounded text-white"
+                >
+                  {batchArray.map((el: any, key: any) => (
+                    <option key={key} value={el._id}>
+                      {el.batch_name}
+                    </option>
+                  ))}
+                </select>
+              </div>
+              {/* </div> */}
+              <div className="relative z-0 mb-6 w-full group">
+                <select
+                  onChange={(E: any) => {
+                    setSection(E.target.value);
+                  }}
+                  className="w-full bg-green-500 w-fill py-2 rounded text-white"
+                >
+                  {sectionArray.map((el: any, key: any) => (
+                    <option key={key} value={el._id}>
+                      {el.sec_name}
+                    </option>
+                  ))}
+                </select>
               </div>
             </div>
+
             <div className="grid xl:grid-cols-2 xl:gap-6">
               <div className="relative z-0 mb-6 w-full group">
                 <input
@@ -185,6 +268,7 @@ const StudentForm: FC = () => {
                 </label>
               </div>
             </div>
+
             <div className="relative z-0 mb-6 w-full group">
               <input
                 type="text"
@@ -200,6 +284,7 @@ const StudentForm: FC = () => {
                 Address
               </label>
             </div>
+
             <div className="relative z-0 mb-6 w-full group">
               <input
                 type="email"
@@ -213,6 +298,21 @@ const StudentForm: FC = () => {
               />
               <label className="absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">
                 Email address
+              </label>
+            </div>
+            <div className="relative z-0 mb-6 w-full group">
+              <input
+                type="text"
+                value={stdID}
+                name="student Id"
+                className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                placeholder=" "
+                onChange={(e) => {
+                  setStdID(e.target.value);
+                }}
+              />
+              <label className="absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">
+                Student ID
               </label>
             </div>
             <div className="relative z-0 mb-6 w-full group">
@@ -248,7 +348,7 @@ const StudentForm: FC = () => {
               </label>
             </div>
             <button
-              disabled={active}
+              // disabled={active}
               type="submit"
               onClick={createStudent}
               className={`text-white 

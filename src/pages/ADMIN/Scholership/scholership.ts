@@ -21,3 +21,19 @@ export const getAllScholership = async () => {
     return null;
   }
 };
+
+export const deleteNewScholership = async (id: any) => {
+  const url = URL + `scholership/${id}`;
+  const new_announcement = await axios.delete(url);
+  return new_announcement.data.status;
+};
+
+export const updateNewScholership = async (id: any, ann_object: any) => {
+  const url = URL + `scholership/${id}`;
+  const new_announcement = await axios.patch(url, ann_object);
+  if (new_announcement.data.data.scholership) {
+    return new_announcement.data.data.scholership;
+  } else {
+    return null;
+  }
+};

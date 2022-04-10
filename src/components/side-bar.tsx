@@ -1,8 +1,8 @@
-import { clear } from "console";
+/* eslint-disable jsx-a11y/anchor-is-valid */
 import { FC, useEffect, useState } from "react";
 import { ISideNavBar } from "../constants/types";
 import { deleteUser, getUser } from "../utils/localStorageFunctions";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const SideBar: FC<ISideNavBar> = ({ showNavBar, setShowNavBar }) => {
   const navigation = useNavigate();
@@ -13,9 +13,17 @@ const SideBar: FC<ISideNavBar> = ({ showNavBar, setShowNavBar }) => {
     if (getUser()) return;
     navigation("/signin");
   };
+
+  const { user } = getUser();
+  // console.log(user);
   return (
     // hide for smaller screen and show the icons on the top seach bar
-    <div className={` ${showNavBar ? "" : "hidden"} lg:block bg-[#3C3B53]`}>
+    <div
+      className={` ${
+        showNavBar ? "" : "hidden"
+      } text-white lg:block bg-green-700`}
+    >
+      {/* <div className="flex justify-center items-center">{user.role}</div> */}
       <div className="min-h-screen flex flex-row ">
         <div className="flex flex-col w-56  overflow-hidden">
           <div className="flex  items-center pl-2 cursor-pointer h-[70px] shadow-md">
@@ -47,87 +55,242 @@ const SideBar: FC<ISideNavBar> = ({ showNavBar, setShowNavBar }) => {
             <li>
               <a
                 href="#"
-                className="flex flex-row items-center h-12 transform hover:translate-x-2 transition-transform ease-in duration-200 text-gray-100 "
+                className="flex flex-row items-center h-12 transform hover:translate-x-2 transition-transform ease-in duration-200  "
               >
-                <span className="inline-flex items-center justify-center h-12 w-12 text-lg text-gray-100">
+                <span className="inline-flex items-center justify-center h-12 w-12 text-lg text-white">
                   <i className="bx bx-home"></i>
                 </span>
                 <span className="text-sm font-medium">Dashboard</span>
               </a>
             </li>
-            <li>
-              <a
-                href="#"
-                className="flex flex-row items-center h-12 transform hover:translate-x-2 transition-transform ease-in duration-200 text-gray-500 hover:text-gray-800"
-              >
-                <span className="inline-flex items-center justify-center h-12 w-12 text-lg text-gray-400">
-                  <i className="bx bx-music"></i>
-                </span>
-                <span className="text-sm font-medium">Music</span>
-              </a>
-            </li>
-            <li>
-              <a
-                href="#"
-                className="flex flex-row items-center h-12 transform hover:translate-x-2 transition-transform ease-in duration-200 text-gray-500 hover:text-gray-800"
-              >
-                <span className="inline-flex items-center justify-center h-12 w-12 text-lg text-gray-400">
-                  <i className="bx bx-drink"></i>
-                </span>
-                <span className="text-sm font-medium">Drink</span>
-              </a>
-            </li>
-            <li>
-              <a
-                href="#"
-                className="flex flex-row items-center h-12 transform hover:translate-x-2 transition-transform ease-in duration-200 text-gray-500 hover:text-gray-800"
-              >
-                <span className="inline-flex items-center justify-center h-12 w-12 text-lg text-gray-400">
-                  <i className="bx bx-shopping-bag"></i>
-                </span>
-                <span className="text-sm font-medium">Shopping</span>
-              </a>
-            </li>
-            <li>
-              <a
-                href="#"
-                className="flex flex-row items-center h-12 transform hover:translate-x-2 transition-transform ease-in duration-200 text-gray-500 hover:text-gray-800"
-              >
-                <span className="inline-flex items-center justify-center h-12 w-12 text-lg text-gray-400">
-                  <i className="bx bx-chat"></i>
-                </span>
-                <span className="text-sm font-medium">Chat</span>
-              </a>
-            </li>
-            <li>
-              <a
-                href="#"
-                className="flex flex-row items-center h-12 transform hover:translate-x-2 transition-transform ease-in duration-200 text-gray-500 hover:text-gray-800"
-              >
-                <span className="inline-flex items-center justify-center h-12 w-12 text-lg text-gray-400">
-                  <i className="bx bx-user"></i>
-                </span>
-                <span className="text-sm font-medium">Profile</span>
-              </a>
-            </li>
-            <li>
-              <a
-                href="#"
-                className="flex flex-row items-center h-12 transform hover:translate-x-2 transition-transform ease-in duration-200 text-gray-500 hover:text-gray-800"
-              >
-                <span className="inline-flex items-center justify-center h-12 w-12 text-lg text-gray-400">
-                  <i className="bx bx-bell"></i>
-                </span>
-                <span className="text-sm font-medium">Notifications</span>
-                <span className="ml-auto mr-6 text-sm bg-red-100 rounded-full px-3 py-px text-red-500">
-                  5
-                </span>
-              </a>
-            </li>
+
+            {user && user.role === "TEACHER" && (
+              <>
+                <li>
+                  <Link to="/teacher/attendance">
+                    <a
+                      // href="#"
+                      className="flex flex-row items-center h-12 transform hover:translate-x-2 transition-transform ease-in duration-200  "
+                    >
+                      <span className="inline-flex items-center justify-center h-12 w-12 text-lg text-white">
+                        <i className="bx bx-home"></i>
+                      </span>
+                      <span className="text-sm font-medium">Attendance</span>
+                    </a>
+                  </Link>
+                  <li>
+                    <li>
+                      <Link to="/teacher/profile">
+                        <a
+                          // href="#"
+                          className="flex flex-row items-center h-12 transform hover:translate-x-2 transition-transform ease-in duration-200  "
+                        >
+                          <span className="inline-flex items-center justify-center h-12 w-12 text-lg text-white">
+                            <i className="bx bx-home"></i>
+                          </span>
+                          <span className="text-sm font-medium">Profile</span>
+                        </a>
+                      </Link>
+                    </li>
+                    <Link to="/admin/allannouncment">
+                      <a
+                        // href="#"
+                        className="flex flex-row items-center h-12 transform hover:translate-x-2 transition-transform ease-in duration-200  "
+                      >
+                        <span className="inline-flex items-center justify-center h-12 w-12 text-lg text-white">
+                          <i className="bx bx-home"></i>
+                        </span>
+                        <span className="text-sm font-medium">
+                          All Annoucment
+                        </span>
+                      </a>
+                    </Link>
+                  </li>
+                  <li>
+                    <Link to="/admin/allscholership">
+                      <a
+                        // href="#"
+                        className="flex flex-row items-center h-12 transform hover:translate-x-2 transition-transform ease-in duration-200  "
+                      >
+                        <span className="inline-flex items-center justify-center h-12 w-12 text-lg text-white">
+                          <i className="bx bx-home"></i>
+                        </span>
+                        <span className="text-sm font-medium">
+                          All Scholerships
+                        </span>
+                      </a>
+                    </Link>
+                  </li>
+                </li>
+              </>
+            )}
+
+            {user && user.role === "STUDENT" && (
+              <>
+                <li>
+                  <Link to="/student/courses">
+                    <a
+                      // href="#"
+                      className="flex flex-row items-center h-12 transform hover:translate-x-2 transition-transform ease-in duration-200  "
+                    >
+                      <span className="inline-flex items-center justify-center h-12 w-12 text-lg text-white">
+                        <i className="bx bx-home"></i>
+                      </span>
+                      <span className="text-sm font-medium">Courses</span>
+                    </a>
+                  </Link>
+                </li>
+                <li>
+                  <Link to="/student/announcement">
+                    <a
+                      // href="#"
+                      className="flex flex-row items-center h-12 transform hover:translate-x-2 transition-transform ease-in duration-200  "
+                    >
+                      <span className="inline-flex items-center justify-center h-12 w-12 text-lg text-white">
+                        <i className="bx bx-home"></i>
+                      </span>
+                      <span className="text-sm font-medium">
+                        All Annoucment
+                      </span>
+                    </a>
+                  </Link>
+                </li>
+                <li>
+                  <Link to="/student/profile">
+                    <a
+                      // href="#"
+                      className="flex flex-row items-center h-12 transform hover:translate-x-2 transition-transform ease-in duration-200  "
+                    >
+                      <span className="inline-flex items-center justify-center h-12 w-12 text-lg text-white">
+                        <i className="bx bx-home"></i>
+                      </span>
+                      <span className="text-sm font-medium">Profile</span>
+                    </a>
+                  </Link>
+                </li>
+                <li>
+                  <Link to="/admin/allscholership">
+                    <a
+                      // href="#"
+                      className="flex flex-row items-center h-12 transform hover:translate-x-2 transition-transform ease-in duration-200  "
+                    >
+                      <span className="inline-flex items-center justify-center h-12 w-12 text-lg text-white">
+                        <i className="bx bx-home"></i>
+                      </span>
+                      <span className="text-sm font-medium">
+                        All Scholerships
+                      </span>
+                    </a>
+                  </Link>
+                </li>
+              </>
+            )}
+
+            {user && user.role === "ADMIN" && (
+              <>
+                <li>
+                  <Link to="/teacher/attendance">
+                    <a
+                      // href="#"
+                      className="flex flex-row items-center h-12 transform hover:translate-x-2 transition-transform ease-in duration-200  "
+                    >
+                      <span className="inline-flex items-center justify-center h-12 w-12 text-lg text-white">
+                        <i className="bx bx-home"></i>
+                      </span>
+                      <span className="text-sm font-medium">Attendance</span>
+                    </a>
+                  </Link>
+                </li>
+                <li>
+                  <Link to="/admin/addstudent">
+                    <a
+                      // href="#"
+                      className="flex flex-row items-center h-12 transform hover:translate-x-2 transition-transform ease-in duration-200  "
+                    >
+                      <span className="inline-flex items-center justify-center h-12 w-12 text-lg text-white">
+                        <i className="bx bx-home"></i>
+                      </span>
+                      <span className="text-sm font-medium">Add Student</span>
+                    </a>
+                  </Link>
+                </li>
+                <li>
+                  <Link to="/admin/addannouncment">
+                    <a
+                      // href="#"
+                      className="flex flex-row items-center h-12 transform hover:translate-x-2 transition-transform ease-in duration-200  "
+                    >
+                      <span className="inline-flex items-center justify-center h-12 w-12 text-lg text-white">
+                        <i className="bx bx-home"></i>
+                      </span>
+                      <span className="text-sm font-medium">Annoucment</span>
+                    </a>
+                  </Link>
+                </li>
+
+                <li>
+                  <Link to="/admin/allannouncment">
+                    <a
+                      // href="#"
+                      className="flex flex-row items-center h-12 transform hover:translate-x-2 transition-transform ease-in duration-200  "
+                    >
+                      <span className="inline-flex items-center justify-center h-12 w-12 text-lg text-white">
+                        <i className="bx bx-home"></i>
+                      </span>
+                      <span className="text-sm font-medium">
+                        All Annoucment
+                      </span>
+                    </a>
+                  </Link>
+                </li>
+                {/* <li>
+                  <Link to="/admin/profile">
+                    <a
+                      // href="#"
+                      className="flex flex-row items-center h-12 transform hover:translate-x-2 transition-transform ease-in duration-200  "
+                    >
+                      <span className="inline-flex items-center justify-center h-12 w-12 text-lg text-white">
+                        <i className="bx bx-home"></i>
+                      </span>
+                      <span className="text-sm font-medium">Profile</span>
+                    </a>
+                  </Link>
+                </li> */}
+                <li>
+                  <Link to="/admin/addscholership">
+                    <a
+                      // href="#"
+                      className="flex flex-row items-center h-12 transform hover:translate-x-2 transition-transform ease-in duration-200  "
+                    >
+                      <span className="inline-flex items-center justify-center h-12 w-12 text-lg text-white">
+                        <i className="bx bx-home"></i>
+                      </span>
+                      <span className="text-sm font-medium">Scholerships</span>
+                    </a>
+                  </Link>
+                </li>
+                <li>
+                  <Link to="/admin/allscholership">
+                    <a
+                      // href="#"
+                      className="flex flex-row items-center h-12 transform hover:translate-x-2 transition-transform ease-in duration-200  "
+                    >
+                      <span className="inline-flex items-center justify-center h-12 w-12 text-lg text-white">
+                        <i className="bx bx-home"></i>
+                      </span>
+                      <span className="text-sm font-medium">
+                        All Scholerships
+                      </span>
+                    </a>
+                  </Link>
+                </li>
+              </>
+            )}
+
             <li>
               <div
                 onClick={logout}
-                className=" cursor-pointer flex flex-row items-center h-12 transform hover:translate-x-2 transition-transform ease-in duration-200 text-gray-500 hover:text-gray-800"
+                className=" cursor-pointer flex flex-row items-center h-12 transform hover:translate-x-2 transition-transform ease-in duration-200 text-white"
               >
                 <span className="inline-flex items-center justify-center h-12 w-12 text-lg text-gray-400">
                   <i className="bx bx-log-out"></i>

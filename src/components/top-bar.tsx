@@ -1,6 +1,8 @@
 import { FC } from "react";
 import { ISideNavBar } from "../constants/types";
+import { getUser } from "../utils/localStorageFunctions";
 const TopBar: FC<ISideNavBar> = ({ setShowNavBar, showNavBar }) => {
+  const { user } = getUser();
   return (
     <>
       <div>
@@ -31,6 +33,8 @@ const TopBar: FC<ISideNavBar> = ({ setShowNavBar, showNavBar }) => {
                   <div className="ml-10 flex items-baseline space-x-4"></div>
                 </div>
               </div>
+              {user.role}
+
               <div className="block">
                 <div className="ml-4 flex items-center md:ml-6">
                   <div className="ml-3 relative">

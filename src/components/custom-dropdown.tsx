@@ -22,10 +22,11 @@ const CustomDropDown: FC<IDropDown> = ({
     <div className="mr-3">{lable}</div>
     <ComboBox
       options={items}
-      onChange={(event) => setDropDownValue(event.target.value)}
+      onSelect={(event) => setDropDownValue(event)}
       placeholder={placeHolder}
       enableAutocomplete
       style={{ width: w }}
+      className="bg-green-700 rounded flex justify-center items-center"
     />
   </div>
 );
