@@ -152,7 +152,7 @@ const Announcemnt: FC<INewAnnouncment> = () => {
           };
 
           const uploadAnn = async () => {
-            const data = await updateNewScholership(object, ann_object);
+            const data = await updateNewScholership(object._id, ann_object);
             if (data) {
               notify("File Upload....");
               setTitle("");

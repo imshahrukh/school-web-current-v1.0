@@ -29,6 +29,7 @@ const Announcemnt: FC<INewAnnouncment> = () => {
   useEffect(() => {
     if (location.state !== null) {
       const { operation, object }: any = location.state;
+      console.log({ object });
       setOperation(operation);
       setObject(object);
       if (operation === "UPDATE") {
@@ -143,6 +144,11 @@ const Announcemnt: FC<INewAnnouncment> = () => {
           setImage(url);
           setUploading(false);
           // add to store latter when we apply redux here
+          console.log({
+            title,
+            description,
+            url: url,
+          });
           const ann_object = {
             title,
             description,
@@ -150,7 +156,7 @@ const Announcemnt: FC<INewAnnouncment> = () => {
           };
 
           const uploadAnn = async () => {
-            const data = await updateNewAnnouncement(object, ann_object);
+            const data = await updateNewAnnouncement(object._id, ann_object);
             if (data) {
               notify("File Upload....");
               setTitle("");

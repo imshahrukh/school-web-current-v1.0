@@ -113,7 +113,7 @@ const Profile: FC = () => {
                       </div>
                       <div className="w-2/4 pl-4 border-l-2 border-gray-200">
                         <div className="flex justify-between">
-                          <div className="mt-4 text-lg font-bold">Email</div>{" "}
+                          <div className="mt-4 text-lg font-bold">Password</div>{" "}
                           <div
                             onClick={() => {
                               setUpdateEmailPage(true);

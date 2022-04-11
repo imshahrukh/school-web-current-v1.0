@@ -348,7 +348,7 @@ const StudentForm: FC = () => {
               </label>
             </div>
             <button
-              // disabled={active}
+              disabled={active}
               type="submit"
               onClick={createStudent}
               className={`text-white 
