@@ -12,8 +12,11 @@ import AllScholership from "./pages/ADMIN/Scholership/all-scholership";
 // import ViewStudentPerDepartment from "./pages/ADMIN/view-students-per-department";
 import Singin from "./pages/auth/signin";
 import StudentForm from "./pages/FORM/create-student-form";
+import TeacherForm from "./pages/FORM/create-teacher";
+
 import Profile from "./pages/STUDENT/profile";
 import TeacherProfile from "./pages/TEACHER/profile";
+import { CreateAccount } from "./pages/FORM/create-account";
 
 import DashboardTeacherAttendance from "./pages/COURSE/attendance";
 import DashboardTeacherMarkAttendance from "./pages/TEACHER/mark-attendance";
@@ -21,6 +24,7 @@ import DashboardTeacherAttendanceSummery from "./pages/TEACHER/view-attendance-s
 import ViewIndividualCourseAttendance from "./pages/COURSE/view-individual-course-attendance";
 import StudentCoursesAttendance from "./pages/STUDENT/student-courses";
 import UpdateAttendance from "./pages/TEACHER/updateAttendance";
+import { SearchStudent } from "./pages/ADMIN/search-student";
 
 function App() {
   return (
@@ -34,6 +38,10 @@ function App() {
         {/* Admin */}
         <Route path="/admin/addannouncment" element={<ADDAnnouncemnt />} />
         <Route path="/admin/addstudent" element={<StudentForm />} />
+        <Route path="/admin/addteacher" element={<TeacherForm />} />
+        <Route path="/admin/searchstudent" element={<SearchStudent />} />
+        <Route path="/admin/createAccount" element={<CreateAccount />} />
+
         <Route path="/admin/profile" element={<Profile />} />
         <Route path="/admin/allannouncment" element={<AllAnnouncment />} />
         <Route path="/admin/addscholership" element={<AddScholership />} />

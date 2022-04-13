@@ -202,7 +202,7 @@ const SideBar: FC<ISideNavBar> = ({ showNavBar, setShowNavBar }) => {
                   </Link>
                 </li>
                 <li>
-                  <Link to="/admin/addstudent">
+                  <Link to="/admin/createAccount">
                     <a
                       // href="#"
                       className="flex flex-row items-center h-12 transform hover:translate-x-2 transition-transform ease-in duration-200  "
@@ -210,10 +210,28 @@ const SideBar: FC<ISideNavBar> = ({ showNavBar, setShowNavBar }) => {
                       <span className="inline-flex items-center justify-center h-12 w-12 text-lg text-white">
                         <i className="bx bx-home"></i>
                       </span>
-                      <span className="text-sm font-medium">Add Student</span>
+                      <span className="text-sm font-medium">
+                        Create Account
+                      </span>
                     </a>
                   </Link>
                 </li>
+                <li>
+                  <Link to="/admin/searchstudent">
+                    <a
+                      // href="#"
+                      className="flex flex-row items-center h-12 transform hover:translate-x-2 transition-transform ease-in duration-200  "
+                    >
+                      <span className="inline-flex items-center justify-center h-12 w-12 text-lg text-white">
+                        <i className="bx bx-home"></i>
+                      </span>
+                      <span className="text-sm font-medium">
+                        Search Student
+                      </span>
+                    </a>
+                  </Link>
+                </li>
+
                 <li>
                   <Link to="/admin/addannouncment">
                     <a

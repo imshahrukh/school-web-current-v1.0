@@ -220,7 +220,7 @@ const Announcemnt: FC<INewAnnouncment> = () => {
               {operation === "UPDATE" ? (
                 <>
                   <CustomButton
-                    title="Upload"
+                    title="Update"
                     type="Update"
                     action={addAnnouncment}
                   ></CustomButton>
