@@ -23,7 +23,11 @@ const Announcemnt: FC<INewAnnouncment> = () => {
   const [operation, setOperation] = useState("");
   let [object, setObject] = useState<any>();
   const [uploading, setUploading] = useState(false);
-  const notify = (text: string) => toast(text);
+  const [message, setMessage] = useState("");
+  const notify = (text: string) => {
+    toast(text);
+    setProgress(0);
+  };
   const location = useLocation();
 
   useEffect(() => {
@@ -101,7 +105,6 @@ const Announcemnt: FC<INewAnnouncment> = () => {
   };
 
   const uploadUpdatedFile = () => {
-    console.log("hi");
     if (!file) {
       const updateObject = {
         title,
@@ -175,9 +178,15 @@ const Announcemnt: FC<INewAnnouncment> = () => {
   };
   return (
     <PageContainor role={ADMIN}>
-      <div className="space-y-4">
-        <ToastContainer />
+      <div className="space-y-4 relative">
+        <div
+          className=" bg-red-500 rounded h-1"
+          style={{
+            width: progress + "%",
+          }}
+        ></div>
 
+        <ToastContainer />
         <InputFeild
           input={title}
           setInput={setTitle}
@@ -212,7 +221,23 @@ const Announcemnt: FC<INewAnnouncment> = () => {
               <div className="w-32">Upload Image</div>
               <input
                 onChange={(e: any) => {
+                  setMessage("");
                   setFile(e.target.files[0]);
+
+                  const file = e.target.files[0];
+                  console.log(file.type);
+                  if (
+                    file &&
+                    file.type === "image/png" &&
+                    file.size / 1000000 <= 2
+                  ) {
+                    // console.log("good to go", file.type, file.size / 1000000);
+                  } else {
+                    console.warn("Invalud type of size");
+                    setMessage(
+                      "Invalid Type or Size, file size should less or 2mb and file type need to png"
+                    );
+                  }
                 }}
                 type="file"
                 placeholder="Enter title"
@@ -223,21 +248,36 @@ const Announcemnt: FC<INewAnnouncment> = () => {
             <div className="items-center w-[510px] flex justify-end">
               {operation === "UPDATE" ? (
                 <>
-                  <CustomButton
-                    title="Update"
-                    type="Update"
-                    action={addAnnouncment}
-                  ></CustomButton>
+                  {message.length === 0 ? (
+                    <>
+                      <CustomButton
+                        title="Update"
+                        type="Update"
+                        action={addAnnouncment}
+                      ></CustomButton>
+                    </>
+                  ) : (
+                    <></>
+                  )}
                 </>
               ) : (
                 <>
-                  <CustomButton
-                    title="Add"
-                    type="Add"
-                    action={addAnnouncment}
-                  ></CustomButton>
+                  {message.length === 0 ? (
+                    <>
+                      <CustomButton
+                        title="Add"
+                        type="Add"
+                        action={addAnnouncment}
+                      ></CustomButton>
+                    </>
+                  ) : (
+                    <></>
+                  )}
                 </>
               )}
+            </div>
+            <div className="bg-red-400 px-4  flex justify-center items-center rounded text-white">
+              {message}
             </div>
           </div>
         )}

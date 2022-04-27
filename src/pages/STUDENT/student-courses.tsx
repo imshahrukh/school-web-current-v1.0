@@ -1,6 +1,6 @@
 import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
 import { FC, useEffect, useMemo, useState } from "react";
-
+import { Link } from "react-router-dom";
 import "react-toastify/dist/ReactToastify.css";
 import { studentAttendanceCourse } from "../../Api/attendance";
 import CustomDropDown from "../../components/custom-dropdown";
@@ -66,13 +66,17 @@ export const ButtonDropDown: FC<ICourseTile> = ({
 interface ICourseTile {
   title: string;
   attendace: Number;
+  course_id: string;
+  hours: string;
 }
 
 export const CourseTile: FC<ICourseTile> = ({
   title,
-
   attendace,
+  course_id,
+  hours,
 }) => {
+  const { user_information } = getUser();
   return (
     <div className="w-full p-2 flex justify-between items-cente border-b-2 mt-3">
       <div className="text-xl">{title}</div>
@@ -81,7 +85,17 @@ export const CourseTile: FC<ICourseTile> = ({
       </div>
       <div className="text-xl">
         <div className="bg-green-700  hover:cursor-pointer  py-2 px-8 text-white rounded flex flex-col justify-center items-center">
-          Detials
+          <Link
+            to="/student/individualcourseattendance"
+            state={{
+              courseObject: user_information,
+              url: "",
+              course_id: course_id,
+              hours: hours,
+            }}
+          >
+            <>View</>
+          </Link>
         </div>
       </div>
     </div>
@@ -98,6 +112,7 @@ const StudentCoursesAttendance: FC = () => {
     setLoading(true);
     const getData = async () => {
       const data = await studentAttendanceCourse(qs);
+      console.log({ data });
 
       if (!!data?.student_attendance) {
         setCourses(data.student_attendance);
@@ -122,6 +137,8 @@ const StudentCoursesAttendance: FC = () => {
             {courses.map((el: any) => (
               <CourseTile
                 title={el?.course_name}
+                course_id={el?.course}
+                hours={el.hours + ""}
                 session="SP18-BSE"
                 stdClass="2"
                 section="C"

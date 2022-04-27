@@ -7,6 +7,7 @@ import "react-toastify/dist/ReactToastify.css";
 import { addAttendance, addTopic } from "../../Api/attendance";
 import { getTopicByDate } from "../../Api/topic";
 import CourseDetial from "../../components/course-detials";
+import { ErrorPage } from "../../components/error";
 import { Loader } from "../../components/loader";
 import { MessageLoader } from "../../components/message-loader";
 import PageContainor from "../../components/page-containor";
@@ -205,8 +206,8 @@ const Table: FC<ITableRadioSet> = ({
 };
 
 const MarkAttendance: FC = () => {
-  const location = useLocation();
-  const { url }: any = location.state;
+  const location: any = useLocation();
+  const url: any = location?.state?.url;
 
   const [topic, setTopic] = useState("");
   const [creditHour, setCreditHour] = useState("");
@@ -218,7 +219,6 @@ const MarkAttendance: FC = () => {
   const [isTopicExists, setIsTopicExist] = useState(false);
 
   const createTopic = (e: any) => {
-    console.log(e.traget.value);
     setTopic(e.traget.value);
   };
   useEffect(() => {
@@ -283,6 +283,10 @@ const MarkAttendance: FC = () => {
   useEffect(() => {
     console.log(bulkAttentance);
   }, [bulkAttentance]);
+
+  if (!location.state) {
+    return <ErrorPage message="Please Select Batch Thank you"></ErrorPage>;
+  }
   return (
     <PageContainor role={TEACHER}>
       <>

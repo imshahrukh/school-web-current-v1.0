@@ -5,27 +5,32 @@ import React, { Dispatch, FC, useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 
 import "react-toastify/dist/ReactToastify.css";
+import { getAttendaceAndTopic } from "../../Api/attendance";
 import { topicByCourse } from "../../Api/topic";
 import CourseDetial from "../../components/course-detials";
 import { ErrorPage } from "../../components/error";
 import PageContainor from "../../components/page-containor";
-import { ADMIN, TEACHER } from "../../constants/role";
+import { ADMIN, STUDENT, TEACHER } from "../../constants/role";
 import { getUser } from "../../utils/localStorageFunctions";
 
 const Table: FC<any> = ({ data, object }) => {
-  console.log({ data });
   return (
     <table id="customers">
       <tr>
         <th className="w-[400px]">Topic</th>
         <th>Date</th>
-        <th>View Detials</th>
+        <th>Total Credit Hours</th>
+        <th>Present</th>
+        <th>Absent</th>
       </tr>
       {data.map((el: any, key: any) => (
         <tr key={key}>
-          <td>{el.descriptiopn}</td>
+          <td>{el.topic?.descriptiopn}</td>
           <td>{el.date}</td>
-          <td>
+          <td>3</td>
+          <td>{el.creditHour}</td>
+          <td>{3 - Number(el.creditHour)}</td>
+          {/* <td>
             <Link
               to="/attendance/updateAttendance"
               state={{ url: { ...object, date: el.date, topic_id: el._id } }}
@@ -33,25 +38,63 @@ const Table: FC<any> = ({ data, object }) => {
             >
               Link
             </Link>
-          </td>
+          </td> */}
         </tr>
       ))}
     </table>
   );
 };
 
-const ViewIndividualCourseAttendance: FC = () => {
+export const StudentIndividualAttendance: FC = () => {
+  console.log("test");
   const location: any = useLocation();
+  console.log({ location });
+
   let url: any = location?.state?.url;
-  const course_detials = url?.courseObject;
-  const { user } = getUser();
-  const ROLE = user.role === ADMIN ? ADMIN : TEACHER;
+  console.log({ location });
+  const { user, user_information } = getUser();
+  console.log({ user_information });
+  const ROLE = user.role === STUDENT ? STUDENT : ADMIN;
   const [topic, setTopic] = useState([]);
+
+  const [totalhours, setTotalHour] = useState("");
+  const [presenthours, setPresentHour] = useState("");
 
   useEffect(() => {
     const getTopic = async () => {
-      const data: any = await topicByCourse(course_detials?.course_id._id);
-      setTopic(data?.topic);
+      let newdata: any = "";
+      // if student
+      if (location?.state?.course_id) {
+        newdata = await getAttendaceAndTopic(
+          `courseSemester=${user_information.stdSemester}&course=${location?.state?.course_id}&student=${user_information?._id}`
+        );
+      } else {
+        // if admin
+        newdata = await getAttendaceAndTopic(
+          `courseSemester=${url?.courseObject?.courseSemester}&course=${url?.courseObject?.course_id?._id}&student=${url?.courseObject?.students[0]._id}`
+        );
+      }
+
+      setTopic(newdata?.attendance);
+      const hours = newdata?.attendance;
+
+      const totalhours = hours.reduce(
+        (a: any, b: any) =>
+          Number(a) +
+          Number(
+            location?.state?.hours
+              ? location?.state?.hours
+              : url?.courseObject?.course_id?.credit_hour
+          ),
+        0
+      );
+
+      setTotalHour(totalhours);
+      const present = hours.reduce(
+        (a: any, b: any) => Number(a) + Number(b?.creditHour),
+        0
+      );
+      setPresentHour(present);
     };
     getTopic();
   }, []);
@@ -67,27 +110,31 @@ const ViewIndividualCourseAttendance: FC = () => {
       <>
         <div className="space-y-4">Mark-Attendamce</div>
         <CourseDetial
-          title={"Computer Programming"}
-          teacher="Numrash"
-          creditHours="3"
+          title={url?.courseObject?.course_id?.course_title}
+          teacher={url?.courseObject?.teacher?.tch_name}
+          creditHours={
+            location?.state?.hours
+              ? location?.state?.hours * 1 + ""
+              : url?.courseObject?.course_id?.credit_hour * 1 + ""
+          }
         ></CourseDetial>
 
         <div className="mt-4 pl-4"></div>
-        {/* <div className="px-4">
+        <div className="px-4">
           <table id="customers">
             <tr>
               <th className="w-[400px]">Total Hours</th>
               <th>Present Hour</th>
-              <th>View Detials</th>
+              <th>Absent</th>
             </tr>
 
             <tr>
-              <td></td>
-              <td></td>
-              <td></td>
+              <td>{totalhours}</td>
+              <td>{presenthours}</td>
+              <td>{Number(totalhours) - Number(presenthours)}</td>
             </tr>
           </table>
-        </div> */}
+        </div>
 
         <div className="pl-4">
           {/* <label className="block">Today Topic</label>
@@ -118,5 +165,3 @@ const ViewIndividualCourseAttendance: FC = () => {
     </PageContainor>
   );
 };
-
-export default ViewIndividualCourseAttendance;

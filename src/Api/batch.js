@@ -18,3 +18,7 @@ export const getAllProgram = async () => {
   const data = await axios.get(URL_PROGRAM);
   return data.data.data;
 };
+export const addBatch = async (object) => {
+  const data = await axios.post(URL_BATCH, object);
+  return data.data.data;
+};

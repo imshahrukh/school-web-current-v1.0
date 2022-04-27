@@ -31,6 +31,11 @@ export const getAttendanceByTopic = async (course, topic, date) => {
   return data.data.data;
 };
 
+export const getAttendaceAndTopic = async (params) => {
+  const data = await axios.get(URL_ATTENDANCE + `?` + params);
+  return data.data.data;
+};
+
 export const teacherGetAttendanceSummery = async (course) => {
   const data = await axios.get(
     `http://localhost:8000/v1/attendance/precentage?course_id=${course}`

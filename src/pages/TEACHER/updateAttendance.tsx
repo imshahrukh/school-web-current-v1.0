@@ -4,11 +4,7 @@ import React, { Dispatch, FC, useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 
 import "react-toastify/dist/ReactToastify.css";
-import {
-  addAttendance,
-  addTopic,
-  getAttendanceByTopic,
-} from "../../Api/attendance";
+import { getAttendanceByTopic } from "../../Api/attendance";
 import { getTopicByDate, getTopicByDateAndCourse } from "../../Api/topic";
 import CourseDetial from "../../components/course-detials";
 import { Loader } from "../../components/loader";
@@ -199,9 +195,9 @@ const Table: FC<ITableRadioSet> = ({
 };
 
 const UpdateAttendance: FC = () => {
-  const location = useLocation();
+  const location: any = useLocation();
   //   courseObject ,date, url
-  const { url }: any = location.state;
+  const url: any = location?.state?.url;
   console.log({ url });
   const { user } = getUser();
   const ROLE = user.role === ADMIN ? ADMIN : TEACHER;

@@ -6,6 +6,7 @@ import { TEACHER } from "../../constants/role";
 import { useLocation } from "react-router-dom";
 import { Loader } from "../../components/loader";
 import { teacherGetAttendanceSummery } from "../../Api/attendance";
+import { ErrorPage } from "../../components/error";
 
 interface ITable {
   data: any;
@@ -33,9 +34,9 @@ const Table: FC<ITable> = ({ data }) => {
   );
 };
 const AttendanceSummery = () => {
-  const location = useLocation();
+  const location: any = useLocation();
   //   courseObject ,date, url
-  const { url }: any = location.state;
+  const url: any = location?.state?.url;
   const [loading, setLoading] = useState(false);
   const [summery, setSummery] = useState([]);
 
@@ -52,6 +53,9 @@ const AttendanceSummery = () => {
     };
     getData();
   }, []);
+  if (!location.state) {
+    return <ErrorPage message="Please Select Batch Thank you"></ErrorPage>;
+  }
   return (
     <>
       <PageContainor role={TEACHER}>

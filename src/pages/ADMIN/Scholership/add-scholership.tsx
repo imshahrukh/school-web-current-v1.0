@@ -24,7 +24,11 @@ const Announcemnt: FC<INewAnnouncment> = () => {
   const [operation, setOperation] = useState("");
   let [object, setObject] = useState<any>();
   const [uploading, setUploading] = useState(false);
-  const notify = (text: string) => toast(text);
+  const [message, setMessage] = useState("");
+  const notify = (text: string) => {
+    setProgress(0);
+    toast(text);
+  };
   const location = useLocation();
 
   useEffect(() => {
@@ -173,7 +177,12 @@ const Announcemnt: FC<INewAnnouncment> = () => {
     <PageContainor role={ADMIN}>
       <div className="space-y-4">
         <ToastContainer />
-
+        <div
+          className=" bg-red-500 rounded h-1"
+          style={{
+            width: progress + "%",
+          }}
+        ></div>
         <InputFeild
           input={title}
           setInput={setTitle}
@@ -209,6 +218,18 @@ const Announcemnt: FC<INewAnnouncment> = () => {
               <input
                 onChange={(e: any) => {
                   setFile(e.target.files[0]);
+                  if (
+                    file &&
+                    file.type === "image/png" &&
+                    file.size / 1000000 <= 2
+                  ) {
+                    // console.log("good to go", file.type, file.size / 1000000);
+                  } else {
+                    console.warn("Invalud type of size");
+                    setMessage(
+                      "Invalid Type or Size, file size should less or 2mb and file type need to png"
+                    );
+                  }
                 }}
                 type="file"
                 placeholder="Enter title"
@@ -219,21 +240,36 @@ const Announcemnt: FC<INewAnnouncment> = () => {
             <div className="items-center w-[510px] flex justify-end">
               {operation === "UPDATE" ? (
                 <>
-                  <CustomButton
-                    title="Update"
-                    type="Update"
-                    action={addAnnouncment}
-                  ></CustomButton>
+                  {message.length === 0 ? (
+                    <>
+                      <CustomButton
+                        title="Update"
+                        type="Update"
+                        action={addAnnouncment}
+                      ></CustomButton>
+                    </>
+                  ) : (
+                    <></>
+                  )}
                 </>
               ) : (
                 <>
-                  <CustomButton
-                    title="Add"
-                    type="Add"
-                    action={addAnnouncment}
-                  ></CustomButton>
+                  {message.length === 0 ? (
+                    <>
+                      <CustomButton
+                        title="Add"
+                        type="Add"
+                        action={addAnnouncment}
+                      ></CustomButton>
+                    </>
+                  ) : (
+                    <></>
+                  )}
                 </>
               )}
+            </div>
+            <div className="bg-red-400 px-4  flex justify-center items-center rounded text-white">
+              {message}
             </div>
           </div>
         )}

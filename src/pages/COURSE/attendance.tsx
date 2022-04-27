@@ -37,7 +37,7 @@ export const ButtonDropDown: FC<any> = (url: string, courseObject: any) => {
             {user.role === ADMIN ? (
               <>
                 <Link
-                  to="/teacher/individualcourseattendance"
+                  to="/admin/individualstudentattendance"
                   state={{ url: url, courseObject: courseObject }}
                 >
                   <div className="p-2 hover:bg-green-400 cursor-pointer">
@@ -156,14 +156,20 @@ const Attendance: FC = () => {
   return (
     <PageContainor role={ROLE}>
       <>
-        <CustomDropDown
-          dropDownValue={dropDownValue}
-          setDropDownValue={setDropDownValue}
-          placeHolder="Select Session"
-          lable="Select Session"
-          w="20%"
-          items={!!batch && batch}
-        ></CustomDropDown>
+        {!!batch.length ? (
+          <>
+            <CustomDropDown
+              dropDownValue={dropDownValue}
+              setDropDownValue={setDropDownValue}
+              placeHolder="Select Session"
+              lable="Select Session"
+              w="20%"
+              items={!!batch && batch}
+            ></CustomDropDown>
+          </>
+        ) : (
+          <></>
+        )}
         {!loading ? (
           !!teacherCourses.length ? (
             teacherCourses.map((el: any, key: any) => (

@@ -78,6 +78,17 @@ const SideBar: FC<ISideNavBar> = ({ showNavBar, setShowNavBar }) => {
                       <span className="text-sm font-medium">Attendance</span>
                     </a>
                   </Link>
+                  <Link to="/teacher/timetable">
+                    <a
+                      // href="#"
+                      className="flex flex-row items-center h-12 transform hover:translate-x-2 transition-transform ease-in duration-200  "
+                    >
+                      <span className="inline-flex items-center justify-center h-12 w-12 text-lg text-white">
+                        <i className="bx bx-home"></i>
+                      </span>
+                      <span className="text-sm font-medium">Time Table</span>
+                    </a>
+                  </Link>
                   <li>
                     <li>
                       <Link to="/teacher/profile">
@@ -140,6 +151,17 @@ const SideBar: FC<ISideNavBar> = ({ showNavBar, setShowNavBar }) => {
                     </a>
                   </Link>
                 </li>
+                <Link to="/student/timetable">
+                  <a
+                    // href="#"
+                    className="flex flex-row items-center h-12 transform hover:translate-x-2 transition-transform ease-in duration-200  "
+                  >
+                    <span className="inline-flex items-center justify-center h-12 w-12 text-lg text-white">
+                      <i className="bx bx-home"></i>
+                    </span>
+                    <span className="text-sm font-medium">Time Table</span>
+                  </a>
+                </Link>
                 <li>
                   <Link to="/student/announcement">
                     <a
@@ -155,6 +177,21 @@ const SideBar: FC<ISideNavBar> = ({ showNavBar, setShowNavBar }) => {
                     </a>
                   </Link>
                 </li>
+
+                <li>
+                  <Link to="/student/studentCourses">
+                    <a
+                      // href="#"
+                      className="flex flex-row items-center h-12 transform hover:translate-x-2 transition-transform ease-in duration-200  "
+                    >
+                      <span className="inline-flex items-center justify-center h-12 w-12 text-lg text-white">
+                        <i className="bx bx-home"></i>
+                      </span>
+                      <span className="text-sm font-medium">Courses</span>
+                    </a>
+                  </Link>
+                </li>
+                <li></li>
                 <li>
                   <Link to="/student/profile">
                     <a
@@ -188,6 +225,7 @@ const SideBar: FC<ISideNavBar> = ({ showNavBar, setShowNavBar }) => {
 
             {user && user.role === "ADMIN" && (
               <>
+                {/* /admin/addCourse */}
                 <li>
                   <Link to="/teacher/attendance">
                     <a
@@ -213,6 +251,33 @@ const SideBar: FC<ISideNavBar> = ({ showNavBar, setShowNavBar }) => {
                       <span className="text-sm font-medium">
                         Create Account
                       </span>
+                    </a>
+                  </Link>
+                </li>
+                <li>
+                  <Link to="/admin/course">
+                    <a
+                      // href="#"
+                      className="flex flex-row items-center h-12 transform hover:translate-x-2 transition-transform ease-in duration-200  "
+                    >
+                      <span className="inline-flex items-center justify-center h-12 w-12 text-lg text-white">
+                        <i className="bx bx-home"></i>
+                      </span>
+                      <span className="text-sm font-medium">Course</span>
+                    </a>
+                  </Link>
+                </li>
+
+                <li>
+                  <Link to="/admin/timetable">
+                    <a
+                      // href="#"
+                      className="flex flex-row items-center h-12 transform hover:translate-x-2 transition-transform ease-in duration-200  "
+                    >
+                      <span className="inline-flex items-center justify-center h-12 w-12 text-lg text-white">
+                        <i className="bx bx-home"></i>
+                      </span>
+                      <span className="text-sm font-medium">Time Table</span>
                     </a>
                   </Link>
                 </li>

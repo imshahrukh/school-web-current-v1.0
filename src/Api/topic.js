@@ -21,3 +21,9 @@ export const getTopicByDateAndCourse = async (date, course) => {
   data = data.data.data;
   return data;
 };
+
+export const getTopicAndAttendance = async (params) => {
+  let data = await axios.get(URL_TOPIC + +`?` + params);
+  data = data.data.data;
+  return data;
+};
